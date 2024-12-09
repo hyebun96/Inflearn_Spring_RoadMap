@@ -17,12 +17,15 @@ public class LogDemoController {
 
     @RequestMapping("log-demo")
     @ResponseBody                       // 뷰화면 없이 문자를 바로 반환하고 싶음
-    public String logDemo(HttpServletRequest request) { // 규약: 고객 요청정보를 받을 수 있다
+    public String logDemo(HttpServletRequest request) throws InterruptedException { // 규약: 고객 요청정보를 받을 수 있다
         String requestURL = request.getRequestURL().toString();
         MyLogger myLogger = myLoggerProvider.getObject();
         myLogger.setRequestURL(requestURL);
         myLogger.log("controller test");
-        logDemoService.logic("testId");
+
+        Thread.sleep(1000);
+        logDemoService.logic("service -> " + "testId");
+
         return "OK";
     }
 }
